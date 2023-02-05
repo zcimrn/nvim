@@ -1,0 +1,6 @@
+*
+!.gitignore
+!init.lua
+!install
+!lua
+!lua/*
