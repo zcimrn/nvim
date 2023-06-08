@@ -29,7 +29,8 @@ vim.cmd.colorscheme('onehalflight')
 
 require('nvim-treesitter.configs').setup {
     highlight = {
-        enable = true},
+        enable = true
+    },
     indent = {
         enable = true
     },
@@ -38,7 +39,9 @@ require('nvim-treesitter.configs').setup {
     },
 }
 
-require('lspconfig')['clangd'].setup {}
+require('lspconfig')['clangd'].setup {
+    cmd = {'clangd', '--background-index', '-j=4'}
+}
 
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
