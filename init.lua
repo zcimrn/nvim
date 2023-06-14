@@ -1,5 +1,5 @@
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.smarttab = true
 vim.opt.autoindent = true
@@ -21,11 +21,15 @@ vim.opt.hlsearch = true
 require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
     use 'rafi/awesome-vim-colorschemes'
+    use 'overcache/NeoSolarized'
     use 'nvim-treesitter/nvim-treesitter'
     use 'neovim/nvim-lspconfig'
 end)
 
-vim.cmd.colorscheme('onehalflight')
+-- vim.cmd.colorscheme('onehalflight')
+vim.opt.termguicolors = true
+vim.opt.background = 'dark'
+vim.cmd.colorscheme('NeoSolarized')
 
 require('nvim-treesitter.configs').setup {
     highlight = {
