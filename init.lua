@@ -20,23 +20,21 @@ vim.opt.hlsearch = true
 
 require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
-    use 'rafi/awesome-vim-colorschemes'
-    use 'overcache/NeoSolarized'
+    use 'jeffkreeftmeijer/vim-dim'
+    use 'noahfrederick/vim-noctu'
     use 'nvim-treesitter/nvim-treesitter'
     use 'neovim/nvim-lspconfig'
 end)
 
--- vim.cmd.colorscheme('onehalflight')
-vim.opt.termguicolors = true
-vim.opt.background = 'dark'
-vim.cmd.colorscheme('NeoSolarized')
+vim.opt.termguicolors = false
+vim.cmd.colorscheme('dim')
 
 require('nvim-treesitter.configs').setup {
     highlight = {
         enable = true
     },
     indent = {
-        enable = true
+        enable = false
     },
     incremental_selection = {
         enable = true
