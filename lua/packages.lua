@@ -17,5 +17,6 @@ require('lazy').setup({
     {'nvim-telescope/telescope.nvim', dependencies = {'nvim-lua/plenary.nvim'}},
     {'ellisonleao/gruvbox.nvim', opts = {
         contrast = 'hard',
-    }}
+    }},
+    {'navarasu/onedark.nvim'},
 })
