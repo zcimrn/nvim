@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+
+set -eux
+
+rm -rf $HOME/.cache/nvim
+rm -rf $HOME/.local/share/nvim
+rm -rf $HOME/.local/state/nvim
+
+find $HOME -name '*vim*'
