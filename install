@@ -1,12 +1,20 @@
 #!/usr/bin/env bash
 
-rm -rf /tmp/nvim &&\
-mkdir -p /tmp/nvim &&\
-curl -sSLo /tmp/nvim/nvim.tar.gz https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz &&\
-tar -C /tmp/nvim -xf /tmp/nvim/nvim.tar.gz &&\
-sudo rm -rf /opt/nvim &&\
-sudo cp -rf /tmp/nvim/nvim-linux64 /opt/nvim &&\
-rm -rf /tmp/nvim &&\
-sudo ln -sf /opt/nvim/bin/nvim /usr/bin/nvim &&\
-sudo ln -sf /usr/bin/nvim /usr/bin/vim &&\
+
+set -eux
+
+rm -rf /tmp/nvim
+mkdir -p /tmp/nvim
+
+curl -Lo /tmp/nvim/nvim.tar.gz https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz
+
+tar -C /tmp/nvim -xf /tmp/nvim/nvim.tar.gz
+
+sudo rm -rf /opt/nvim
+sudo cp -r /tmp/nvim/nvim-linux-x86_64 /opt/nvim
+
+rm -rf /tmp/nvim
+
+sudo ln -sf /opt/nvim/bin/nvim /usr/bin/nvim
+sudo ln -sf /usr/bin/nvim /usr/bin/vim
 sudo ln -sf /usr/bin/nvim /usr/bin/vi
