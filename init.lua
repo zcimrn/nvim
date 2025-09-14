@@ -1,216 +1,183 @@
 vim.opt.number = true
-vim.opt.listchars = 'tab:\\u25b8 ,trail:-,nbsp:+'
+vim.opt.listchars = "tab:\\u25b8 ,trail:-,nbsp:+"
 vim.opt.list = true
 vim.opt.scrolloff = 10
 vim.opt.cursorline = true
+vim.opt.colorcolumn = "81,121"
 
-vim.opt.incsearch = true
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.hlsearch = true
+vim.opt.termguicolors = false
 
-vim.api.nvim_create_autocmd('FileType', {
+vim.opt.smarttab = true
+vim.opt.autoindent = true
+vim.opt.smartindent = true
+
+local indent_augroup_id = vim.api.nvim_create_augroup("indent", {})
+vim.api.nvim_create_autocmd("FileType", {
+    group = indent_augroup_id,
     callback = function()
-        vim.opt.smarttab = true
-        vim.opt.autoindent = true
-        vim.opt.smartindent = true
+        local filetype_to_settings_map = {
+            make = {
+                tabstop = 4,
+                shiftwidth = 4,
+                expandtab = false,
+            },
+            go = {
+                tabstop = 4,
+                shiftwidth = 4,
+                expandtab = false,
+            },
+        }
 
-        vim.opt.tabstop = 4
-        vim.opt.shiftwidth = 4
-        vim.opt.expandtab = true
+        local settings = filetype_to_settings_map[vim.opt.filetype:get()] or {
+            tabstop = 4,
+            shiftwidth = 4,
+            expandtab = true,
+        }
 
-        local filetype = vim.opt.filetype:get()
-
-        if filetype == 'c' then
-            vim.opt.tabstop = 2
-            vim.opt.shiftwidth = 2
-            vim.opt.expandtab = true
-        end
-
-        if filetype == 'cpp' then
-            vim.opt.tabstop = 2
-            vim.opt.shiftwidth = 2
-            vim.opt.expandtab = true
-        end
-
-        if filetype == 'go' then
-            vim.opt.tabstop = 4
-            vim.opt.shiftwidth = 4
-            vim.opt.expandtab = false
-        end
-
-        if filetype == 'json' then
-            vim.opt.tabstop = 2
-            vim.opt.shiftwidth = 2
-            vim.opt.expandtab = true
-        end
-
-        if filetype == 'lua' then
-            vim.opt.tabstop = 4
-            vim.opt.shiftwidth = 4
-            vim.opt.expandtab = true
-        end
-
-        if filetype == 'make' then
-            vim.opt.tabstop = 4
-            vim.opt.shiftwidth = 4
-            vim.opt.expandtab = false
-        end
-
-        if filetype == 'py' then
-            vim.opt.tabstop = 4
-            vim.opt.shiftwidth = 4
-            vim.opt.expandtab = true
-        end
-
-        if filetype == 'sh' then
-            vim.opt.tabstop = 4
-            vim.opt.shiftwidth = 4
-            vim.opt.expandtab = true
-        end
-
-        if filetype == 'yaml' then
-            vim.opt.tabstop = 2
-            vim.opt.shiftwidth = 2
-            vim.opt.expandtab = true
-        end
+        vim.opt.tabstop = settings.tabstop
+        vim.opt.shiftwidth = settings.shiftwidth
+        vim.opt.expandtab = settings.expandtab
     end,
 })
 
--- lazy
-
-local lazy_path = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+local lazy_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not (vim.uv or vim.loop).fs_stat(lazy_path) then
     vim.fn.system({
-        'git',
-        'clone',
-        '--filter=blob:none',
-        '--branch=stable',
-        'https://github.com/folke/lazy.nvim.git',
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "--branch=stable",
+        "https://github.com/folke/lazy.nvim.git",
         lazy_path,
     })
 end
 
 vim.opt.rtp:prepend(lazy_path)
 
-require('lazy').setup({
+require("lazy").setup({
     spec = {
         {
-            'ellisonleao/gruvbox.nvim',
+            "projekt0n/github-nvim-theme",
         },
         {
-            'nvim-treesitter/nvim-treesitter',
-            build = ':TSUpdate',
+            "Mofiqul/vscode.nvim",
         },
         {
-            'nvim-telescope/telescope.nvim',
+            "NLKNguyen/papercolor-theme",
+        },
+        {
+            "ellisonleao/gruvbox.nvim",
+            opts = {
+                italic = {
+                    strings = false,
+                    emphasis = false,
+                    comments = false,
+                    operators = false,
+                    folds = false,
+                },
+            }
+        },
+        {
+            "folke/snacks.nvim",
+            opts = {
+                explorer = { enabled = true },
+                picker = { enabled = true },
+            },
+            priority = 1000,
+            lazy = false,
+            keys = {
+                { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart find files" },
+                { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
+                { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
+                { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command history" },
+                { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notifications" },
+                { "<leader>e", function() Snacks.explorer() end, desc = "Explorer" },
+
+                { "gd", function() Snacks.picker.lsp_definitions() end, desc = "LSP definitions" },
+                { "gD", function() Snacks.picker.lsp_declarations() end, desc = "LSP declarations" },
+                { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "LSP references" },
+                { "gI", function() Snacks.picker.lsp_implementations() end, desc = "LSP implementations" },
+                { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "LSP type definitions" },
+                { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP symbols" },
+                { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP workspace symbols" },
+            }
+        },
+        {
+            "nvim-treesitter/nvim-treesitter",
+            branch = "main",
+            lazy = false,
+            build = ":TSUpdate",
+        },
+        {
+            "mason-org/mason-lspconfig.nvim",
             dependencies = {
-                'nvim-lua/plenary.nvim',
+                {
+                    "mason-org/mason.nvim",
+                    opts = {},
+                },
+                "neovim/nvim-lspconfig",
+            },
+            opts = {
+                ensure_installed = {
+                    "lua_ls",
+                    "clangd",
+                },
             },
         },
         {
-            'neovim/nvim-lspconfig',
+            "folke/lazydev.nvim",
+            ft = "lua",
+            opts = {},
         },
         {
-            'folke/lazydev.nvim',
-            opts = {},
-            ft = 'lua',
+            "folke/which-key.nvim",
+            event = "VeryLazy",
+            keys = {
+                {
+                    "<leader>?",
+                    function()
+                        require("which-key").show({ global = false })
+                    end,
+                    desc = "Buffer Local Keymaps (which-key)",
+                },
+            },
         },
-    }
-})
-
--- colorscheme
-
-require('gruvbox').setup({
-    italic = {
-        strings = false,
-        emphasis = true,
-        comments = true,
-        operators = false,
-        folds = true,
-    },
-    contrast = 'hard',
-})
-
-vim.opt.termguicolors = false
-
--- vim.cmd('colorscheme gruvbox')
-
--- treesitter
-
-require('nvim-treesitter.configs').setup({
-    ensure_installed = {
-        'bash',
-        'c',
-        'cpp',
-        'css',
-        'dockerfile',
-        'go',
-        'html',
-        'javascript',
-        'json',
-        'lua',
-        'python',
-        'vim',
-        'vimdoc',
-        'yaml',
-    },
-    highlight = {
-        enable = true
-    },
-    indent = {
-        enable = true
     },
 })
 
--- telescope
+vim.opt.background = "light"
+vim.cmd("colorscheme github_light")
 
-local telescope = require('telescope.builtin')
-
-vim.keymap.set('n', '<leader>ff', telescope.find_files)
-vim.keymap.set('n', '<leader>fg', telescope.live_grep)
-vim.keymap.set('n', '<leader>fb', telescope.buffers)
-vim.keymap.set('n', '<leader>fh', telescope.help_tags)
-
--- lsp
-
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
-
-vim.api.nvim_create_autocmd('LspAttach', {
-    group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-    callback = function(ev)
-        vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-        local opts = { buffer = ev.buf }
-        -- vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-        -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-        -- vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-        -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-        -- vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-
-        vim.keymap.set('n', 'gd', telescope.lsp_definitions, opts)
-        vim.keymap.set('n', 'gD', telescope.lsp_type_definitions, opts)
-        vim.keymap.set('n', 'gr', telescope.lsp_references, opts)
-        vim.keymap.set('n', 'gi', telescope.lsp_implementations, opts)
-
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-        vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-        vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-        vim.keymap.set('n', '<space>wl', function()
-            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end, opts)
-        vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-        vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
-        vim.keymap.set('n', '<space>f', function()
-            vim.lsp.buf.format { async = true }
-        end, opts)
-    end,
+require("nvim-treesitter").install({
+    "bash",
+    "c",
+    "cpp",
+    "go",
+    "html",
+    "javascript",
+    "json",
+    "lua",
+    "make",
+    "python",
+    "rust",
+    "yaml",
 })
 
-vim.lsp.enable('clangd')
+vim.lsp.config("lua_ls", {
+    settings = {
+        Lua = {
+            format = {
+                defaultConfig = {
+                    quote_style = "double",
+                    max_line_length = "120",
+                    align_array_table = "false",
+                },
+            },
+        },
+    },
+})
 
-vim.lsp.enable('lua_ls')
-
-vim.lsp.enable('ruff')
+vim.keymap.set({ "n", "v" }, "<leader>cf", vim.lsp.buf.format, { desc = "LSP format" })
+vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP code action" })
+vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "LSP rename" })
