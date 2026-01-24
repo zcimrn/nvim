@@ -1,44 +1,16 @@
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 0
+vim.opt.softtabstop = -1
+vim.opt.expandtab = true
+vim.opt.smarttab = false
+
 vim.opt.number = true
-vim.opt.listchars = "tab:\\u25b8 ,trail:-,nbsp:+"
 vim.opt.list = true
-vim.opt.scrolloff = 10
+vim.opt.scrolloff = 8
 vim.opt.cursorline = true
 vim.opt.colorcolumn = "81,121"
 
 vim.opt.termguicolors = false
-
-vim.opt.smarttab = true
-vim.opt.autoindent = true
-vim.opt.smartindent = true
-
-local indent_augroup_id = vim.api.nvim_create_augroup("indent", {})
-vim.api.nvim_create_autocmd("FileType", {
-    group = indent_augroup_id,
-    callback = function()
-        local filetype_to_settings_map = {
-            make = {
-                tabstop = 4,
-                shiftwidth = 4,
-                expandtab = false,
-            },
-            go = {
-                tabstop = 4,
-                shiftwidth = 4,
-                expandtab = false,
-            },
-        }
-
-        local settings = filetype_to_settings_map[vim.opt.filetype:get()] or {
-            tabstop = 4,
-            shiftwidth = 4,
-            expandtab = true,
-        }
-
-        vim.opt.tabstop = settings.tabstop
-        vim.opt.shiftwidth = settings.shiftwidth
-        vim.opt.expandtab = settings.expandtab
-    end,
-})
 
 local lazy_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
@@ -58,16 +30,9 @@ vim.opt.rtp:prepend(lazy_path)
 require("lazy").setup({
     spec = {
         {
-            "projekt0n/github-nvim-theme",
-        },
-        {
-            "Mofiqul/vscode.nvim",
-        },
-        {
-            "NLKNguyen/papercolor-theme",
-        },
-        {
             "ellisonleao/gruvbox.nvim",
+            priority = 1000,
+            lazy = false,
             opts = {
                 italic = {
                     strings = false,
@@ -76,7 +41,42 @@ require("lazy").setup({
                     operators = false,
                     folds = false,
                 },
-            }
+            },
+        },
+        {
+            "Mofiqul/vscode.nvim",
+            priority = 1000,
+            lazy = false,
+        },
+        {
+            "Mofiqul/adwaita.nvim",
+            priority = 1000,
+            lazy = false,
+        },
+        {
+            "projekt0n/github-nvim-theme",
+            priority = 1000,
+            lazy = false,
+        },
+        {
+            "NLKNguyen/papercolor-theme",
+            priority = 1000,
+            lazy = false,
+        },
+        {
+            "folke/tokyonight.nvim",
+            priority = 1000,
+            lazy = false,
+        },
+        {
+            "catppuccin/nvim",
+            priority = 1000,
+            lazy = false,
+        },
+        {
+            "rebelot/kanagawa.nvim",
+            priority = 1000,
+            lazy = false,
         },
         {
             "folke/snacks.nvim",
@@ -108,6 +108,30 @@ require("lazy").setup({
             branch = "main",
             lazy = false,
             build = ":TSUpdate",
+            dependencies = {
+                {
+                    "nvim-treesitter/nvim-treesitter-textobjects",
+                    branch = "main",
+                    keys = {
+                        { "if", function() require "nvim-treesitter-textobjects.select".select_textobject(
+                            "@function.inner", "textobjects") end, mode = { "x", "o" } },
+                        { "af", function() require "nvim-treesitter-textobjects.select".select_textobject(
+                            "@function.outer", "textobjects") end, mode = { "x", "o" } },
+                        { "ic", function() require "nvim-treesitter-textobjects.select".select_textobject("@class.inner",
+                                "textobjects") end, mode = { "x", "o" } },
+                        { "ac", function() require "nvim-treesitter-textobjects.select".select_textobject("@class.outer",
+                                "textobjects") end, mode = { "x", "o" } },
+                        { "ia", function() require "nvim-treesitter-textobjects.select".select_textobject(
+                            "@parameter.inner", "textobjects") end, mode = { "x", "o" } },
+                        { "aa", function() require "nvim-treesitter-textobjects.select".select_textobject(
+                            "@parameter.outer", "textobjects") end, mode = { "x", "o" } },
+                        { "ib", function() require "nvim-treesitter-textobjects.select".select_textobject("@block.inner",
+                                "textobjects") end, mode = { "x", "o" } },
+                        { "ab", function() require "nvim-treesitter-textobjects.select".select_textobject("@block.outer",
+                                "textobjects") end, mode = { "x", "o" } },
+                    },
+                },
+            },
         },
         {
             "mason-org/mason-lspconfig.nvim",
@@ -120,8 +144,10 @@ require("lazy").setup({
             },
             opts = {
                 ensure_installed = {
-                    "lua_ls",
                     "clangd",
+                    "jsonls",
+                    "lua_ls",
+                    "yamlls",
                 },
             },
         },
@@ -147,7 +173,7 @@ require("lazy").setup({
 })
 
 vim.opt.background = "light"
-vim.cmd("colorscheme github_light")
+vim.cmd("colorscheme vscode")
 
 require("nvim-treesitter").install({
     "bash",
