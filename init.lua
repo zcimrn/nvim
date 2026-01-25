@@ -27,31 +27,25 @@ vim.opt.rtp:prepend(lazy_path)
 
 require("lazy").setup({
     spec = {
-        {
-            "Mofiqul/vscode.nvim",
-            lazy = false,
-            priority = 1000,
-            config = function()
-                vim.opt.background = "light"
-                vim.cmd.colorscheme("vscode")
-            end,
-        },
-        { "artart222/nvim-enfocado", lazy = true },
-        { "calind/selenized.nvim", lazy = true },
-        { "catppuccin/nvim", lazy = true },
-        { "EdenEast/nightfox.nvim", lazy = true },
-        { "ellisonleao/gruvbox.nvim", lazy = true, },
-        { "folke/tokyonight.nvim", lazy = true },
-        { "Mofiqul/adwaita.nvim", lazy = true },
-        { "navarasu/onedark.nvim", lazy = true },
-        { "neanias/everforest-nvim", lazy = true },
-        { "nlknguyen/papercolor-theme", lazy = true },
-        { "projekt0n/github-nvim-theme", lazy = true },
-        { "rebelot/kanagawa.nvim", lazy = true },
-        { "rose-pine/neovim", lazy = true },
-        { "talha-akram/noctis.nvim", lazy = true },
+        { "artart222/nvim-enfocado", lazy = false, priority = 1000 },
+        { "calind/selenized.nvim", lazy = false, priority = 1000 },
+        { "catppuccin/nvim", lazy = false, priority = 1000 },
+        { "EdenEast/nightfox.nvim", lazy = false, priority = 1000 },
+        { "ellisonleao/gruvbox.nvim", lazy = false, priority = 1000 },
+        { "folke/tokyonight.nvim", lazy = false, priority = 1000 },
+        { "MarcoKorinth/onehalf.nvim", lazy = false, priority = 1000 },
+        { "Mofiqul/adwaita.nvim", lazy = false, priority = 1000 },
+        { "Mofiqul/vscode.nvim", lazy = false, priority = 1000 },
+        { "navarasu/onedark.nvim", lazy = false, priority = 1000 },
+        { "neanias/everforest-nvim", lazy = false, priority = 1000 },
+        { "nlknguyen/papercolor-theme", lazy = false, priority = 1000 },
+        { "projekt0n/github-nvim-theme", lazy = false, priority = 1000 },
+        { "rebelot/kanagawa.nvim", lazy = false, priority = 1000 },
+        { "rose-pine/neovim", lazy = false, priority = 1000 },
+        { "talha-akram/noctis.nvim", lazy = false, priority = 1000 },
         {
             "nvim-treesitter/nvim-treesitter",
+            branch = "main",
             lazy = false,
             dependencies = {
                 { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
@@ -106,6 +100,9 @@ require("lazy").setup({
     },
 })
 
+vim.opt.background = "light"
+vim.cmd.colorscheme("dayfox")
+
 require("nvim-treesitter").install({
     "bash",
     "c",
@@ -128,6 +125,10 @@ vim.lsp.config("lua_ls", {
                 defaultConfig = {
                     quote_style = "double",
                 },
+            },
+            telemetry = { enable = false },
+            workspace = {
+                library = vim.api.nvim_get_runtime_file("", true),
             },
         },
     },
