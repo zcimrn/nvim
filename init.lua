@@ -28,21 +28,21 @@ vim.opt.rtp:prepend(lazy_path)
 require("lazy").setup({
     spec = {
         {
-            "EdenEast/nightfox.nvim",
+            "Mofiqul/vscode.nvim",
             lazy = false,
             priority = 1000,
             config = function()
                 vim.opt.background = "light"
-                vim.cmd.colorscheme("dayfox")
+                vim.cmd.colorscheme("vscode")
             end,
         },
         { "artart222/nvim-enfocado", lazy = true },
         { "calind/selenized.nvim", lazy = true },
         { "catppuccin/nvim", lazy = true },
+        { "EdenEast/nightfox.nvim", lazy = true },
         { "ellisonleao/gruvbox.nvim", lazy = true, },
         { "folke/tokyonight.nvim", lazy = true },
         { "Mofiqul/adwaita.nvim", lazy = true },
-        { "Mofiqul/vscode.nvim", lazy = true },
         { "navarasu/onedark.nvim", lazy = true },
         { "neanias/everforest-nvim", lazy = true },
         { "nlknguyen/papercolor-theme", lazy = true },
