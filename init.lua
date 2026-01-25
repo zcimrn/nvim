@@ -60,10 +60,6 @@ require("lazy").setup({
         },
         {
             "folke/snacks.nvim",
-            opts = {
-                explorer = { enabled = true },
-                picker = { enabled = true },
-            },
             lazy = false,
             priority = 1000,
             keys = {
@@ -81,7 +77,11 @@ require("lazy").setup({
                 { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "LSP type definitions" },
                 { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP symbols" },
                 { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP workspace symbols" },
-            }
+            },
+            opts = {
+                explorer = { enabled = true },
+                picker = { enabled = true },
+            },
         },
         {
             "mason-org/mason-lspconfig.nvim",
