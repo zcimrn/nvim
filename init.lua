@@ -10,8 +10,6 @@ vim.opt.scrolloff = 8
 vim.opt.cursorline = true
 vim.opt.colorcolumn = "81,121"
 
-vim.opt.termguicolors = false
-
 local lazy_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not (vim.uv or vim.loop).fs_stat(lazy_path) then
@@ -30,53 +28,35 @@ vim.opt.rtp:prepend(lazy_path)
 require("lazy").setup({
     spec = {
         {
-            "ellisonleao/gruvbox.nvim",
-            priority = 1000,
+            "EdenEast/nightfox.nvim",
             lazy = false,
-            opts = {
-                italic = {
-                    strings = false,
-                    emphasis = false,
-                    comments = false,
-                    operators = false,
-                    folds = false,
-                },
+            priority = 1000,
+            config = function()
+                vim.opt.background = "light"
+                vim.cmd.colorscheme("dayfox")
+            end,
+        },
+        { "artart222/nvim-enfocado", lazy = true },
+        { "calind/selenized.nvim", lazy = true },
+        { "catppuccin/nvim", lazy = true },
+        { "ellisonleao/gruvbox.nvim", lazy = true, },
+        { "folke/tokyonight.nvim", lazy = true },
+        { "Mofiqul/adwaita.nvim", lazy = true },
+        { "Mofiqul/vscode.nvim", lazy = true },
+        { "navarasu/onedark.nvim", lazy = true },
+        { "neanias/everforest-nvim", lazy = true },
+        { "nlknguyen/papercolor-theme", lazy = true },
+        { "projekt0n/github-nvim-theme", lazy = true },
+        { "rebelot/kanagawa.nvim", lazy = true },
+        { "rose-pine/neovim", lazy = true },
+        { "talha-akram/noctis.nvim", lazy = true },
+        {
+            "nvim-treesitter/nvim-treesitter",
+            lazy = false,
+            dependencies = {
+                { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
             },
-        },
-        {
-            "Mofiqul/vscode.nvim",
-            priority = 1000,
-            lazy = false,
-        },
-        {
-            "Mofiqul/adwaita.nvim",
-            priority = 1000,
-            lazy = false,
-        },
-        {
-            "projekt0n/github-nvim-theme",
-            priority = 1000,
-            lazy = false,
-        },
-        {
-            "NLKNguyen/papercolor-theme",
-            priority = 1000,
-            lazy = false,
-        },
-        {
-            "folke/tokyonight.nvim",
-            priority = 1000,
-            lazy = false,
-        },
-        {
-            "catppuccin/nvim",
-            priority = 1000,
-            lazy = false,
-        },
-        {
-            "rebelot/kanagawa.nvim",
-            priority = 1000,
-            lazy = false,
+            build = ":TSUpdate",
         },
         {
             "folke/snacks.nvim",
@@ -84,8 +64,8 @@ require("lazy").setup({
                 explorer = { enabled = true },
                 picker = { enabled = true },
             },
-            priority = 1000,
             lazy = false,
+            priority = 1000,
             keys = {
                 { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart find files" },
                 { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
@@ -102,36 +82,6 @@ require("lazy").setup({
                 { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP symbols" },
                 { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP workspace symbols" },
             }
-        },
-        {
-            "nvim-treesitter/nvim-treesitter",
-            branch = "main",
-            lazy = false,
-            build = ":TSUpdate",
-            dependencies = {
-                {
-                    "nvim-treesitter/nvim-treesitter-textobjects",
-                    branch = "main",
-                    keys = {
-                        { "if", function() require "nvim-treesitter-textobjects.select".select_textobject(
-                            "@function.inner", "textobjects") end, mode = { "x", "o" } },
-                        { "af", function() require "nvim-treesitter-textobjects.select".select_textobject(
-                            "@function.outer", "textobjects") end, mode = { "x", "o" } },
-                        { "ic", function() require "nvim-treesitter-textobjects.select".select_textobject("@class.inner",
-                                "textobjects") end, mode = { "x", "o" } },
-                        { "ac", function() require "nvim-treesitter-textobjects.select".select_textobject("@class.outer",
-                                "textobjects") end, mode = { "x", "o" } },
-                        { "ia", function() require "nvim-treesitter-textobjects.select".select_textobject(
-                            "@parameter.inner", "textobjects") end, mode = { "x", "o" } },
-                        { "aa", function() require "nvim-treesitter-textobjects.select".select_textobject(
-                            "@parameter.outer", "textobjects") end, mode = { "x", "o" } },
-                        { "ib", function() require "nvim-treesitter-textobjects.select".select_textobject("@block.inner",
-                                "textobjects") end, mode = { "x", "o" } },
-                        { "ab", function() require "nvim-treesitter-textobjects.select".select_textobject("@block.outer",
-                                "textobjects") end, mode = { "x", "o" } },
-                    },
-                },
-            },
         },
         {
             "mason-org/mason-lspconfig.nvim",
@@ -151,29 +101,10 @@ require("lazy").setup({
                 },
             },
         },
-        {
-            "folke/lazydev.nvim",
-            ft = "lua",
-            opts = {},
-        },
-        {
-            "folke/which-key.nvim",
-            event = "VeryLazy",
-            keys = {
-                {
-                    "<leader>?",
-                    function()
-                        require("which-key").show({ global = false })
-                    end,
-                    desc = "Buffer Local Keymaps (which-key)",
-                },
-            },
-        },
+        { "folke/lazydev.nvim", ft = "lua", opts = {} },
+        { "folke/which-key.nvim", event = "VeryLazy" },
     },
 })
-
-vim.opt.background = "light"
-vim.cmd("colorscheme vscode")
 
 require("nvim-treesitter").install({
     "bash",
@@ -196,13 +127,132 @@ vim.lsp.config("lua_ls", {
             format = {
                 defaultConfig = {
                     quote_style = "double",
-                    max_line_length = "120",
-                    align_array_table = "false",
                 },
             },
         },
     },
 })
+
+local function select_textobject(query_string, query_group)
+    return function()
+        require("nvim-treesitter-textobjects.select").select_textobject(query_string, query_group or "textobjects")
+    end
+end
+
+vim.keymap.set({ "x", "o" }, "ib", select_textobject("@block.inner"), { desc = "inner block" })
+vim.keymap.set({ "x", "o" }, "ab", select_textobject("@block.outer"), { desc = "outer block" })
+
+vim.keymap.set({ "x", "o" }, "if", select_textobject("@call.inner"), { desc = "inner call" })
+vim.keymap.set({ "x", "o" }, "af", select_textobject("@call.outer"), { desc = "outer call" })
+
+vim.keymap.set({ "x", "o" }, "ic", select_textobject("@class.inner"), { desc = "inner class" })
+vim.keymap.set({ "x", "o" }, "ac", select_textobject("@class.outer"), { desc = "outer class" })
+
+vim.keymap.set({ "x", "o" }, "ii", select_textobject("@conditional.inner"), { desc = "inner conditional" })
+vim.keymap.set({ "x", "o" }, "ai", select_textobject("@conditional.outer"), { desc = "outer conditional" })
+
+vim.keymap.set({ "x", "o" }, "im", select_textobject("@function.inner"), { desc = "inner function" })
+vim.keymap.set({ "x", "o" }, "am", select_textobject("@function.outer"), { desc = "outer function" })
+
+vim.keymap.set({ "x", "o" }, "il", select_textobject("@loop.inner"), { desc = "inner loop" })
+vim.keymap.set({ "x", "o" }, "al", select_textobject("@loop.outer"), { desc = "outer loop" })
+
+vim.keymap.set({ "x", "o" }, "ia", select_textobject("@parameter.inner"), { desc = "inner parameter" })
+vim.keymap.set({ "x", "o" }, "aa", select_textobject("@parameter.outer"), { desc = "outer parameter" })
+
+vim.keymap.set({ "x", "o" }, "ir", select_textobject("@return.inner"), { desc = "inner return" })
+vim.keymap.set({ "x", "o" }, "ar", select_textobject("@return.outer"), { desc = "outer return" })
+
+vim.keymap.set({ "x", "o" }, "ax", select_textobject("@statement.outer"), { desc = "outer statement" })
+
+vim.keymap.set({ "x", "o" }, "as", select_textobject("@local.scope", "locals"), { desc = "outer scope" })
+
+vim.keymap.set("n", "<leader>a", function() require("nvim-treesitter-textobjects.swap").swap_next("@parameter.inner") end)
+vim.keymap.set("n", "<leader>A", function() require("nvim-treesitter-textobjects.swap").swap_previous("@parameter.outer") end)
+
+local function goto_next_start(query_string, query_group)
+    return function()
+        require("nvim-treesitter-textobjects.move").goto_next_start(query_string, query_group or "textobjects")
+    end
+end
+
+local function goto_next_end(query_string, query_group)
+    return function()
+        require("nvim-treesitter-textobjects.move").goto_next_end(query_string, query_group or "textobjects")
+    end
+end
+
+local function goto_previous_start(query_string, query_group)
+    return function()
+        require("nvim-treesitter-textobjects.move").goto_previous_start(query_string, query_group or "textobjects")
+    end
+end
+
+local function goto_previous_end(query_string, query_group)
+    return function()
+        require("nvim-treesitter-textobjects.move").goto_previous_end(query_string, query_group or "textobjects")
+    end
+end
+
+vim.keymap.set({ "n", "x", "o" }, "]b", goto_next_start("@block.outer"), { desc = "next block start" })
+vim.keymap.set({ "n", "x", "o" }, "]B", goto_next_end("@block.outer"), { desc = "next block end" })
+vim.keymap.set({ "n", "x", "o" }, "[b", goto_previous_start("@block.outer"), { desc = "previous block start" })
+vim.keymap.set({ "n", "x", "o" }, "[B", goto_previous_end("@block.outer"), { desc = "previous block end" })
+
+vim.keymap.set({ "n", "x", "o" }, "]f", goto_next_start("@call.outer"), { desc = "next call start" })
+vim.keymap.set({ "n", "x", "o" }, "]F", goto_next_end("@call.outer"), { desc = "next call end" })
+vim.keymap.set({ "n", "x", "o" }, "[f", goto_previous_start("@call.outer"), { desc = "previous call start" })
+vim.keymap.set({ "n", "x", "o" }, "[F", goto_previous_end("@call.outer"), { desc = "previous call end" })
+
+vim.keymap.set({ "n", "x", "o" }, "]c", goto_next_start("@class.outer"), { desc = "next class start" })
+vim.keymap.set({ "n", "x", "o" }, "]C", goto_next_end("@class.outer"), { desc = "next class end" })
+vim.keymap.set({ "n", "x", "o" }, "[c", goto_previous_start("@class.outer"), { desc = "previous class start" })
+vim.keymap.set({ "n", "x", "o" }, "[C", goto_previous_end("@class.outer"), { desc = "previous class end" })
+
+vim.keymap.set({ "n", "x", "o" }, "]i", goto_next_start("@conditional.outer"), { desc = "next conditional start" })
+vim.keymap.set({ "n", "x", "o" }, "]I", goto_next_end("@conditional.outer"), { desc = "next conditional end" })
+vim.keymap.set({ "n", "x", "o" }, "[i", goto_previous_start("@conditional.outer"), { desc = "previous conditional start" })
+vim.keymap.set({ "n", "x", "o" }, "[I", goto_previous_end("@conditional.outer"), { desc = "previous conditional end" })
+
+vim.keymap.set({ "n", "x", "o" }, "]m", goto_next_start("@function.outer"), { desc = "next function start" })
+vim.keymap.set({ "n", "x", "o" }, "]M", goto_next_end("@function.outer"), { desc = "next function end" })
+vim.keymap.set({ "n", "x", "o" }, "[m", goto_previous_start("@function.outer"), { desc = "previous function start" })
+vim.keymap.set({ "n", "x", "o" }, "[M", goto_previous_end("@function.outer"), { desc = "previous function end" })
+
+vim.keymap.set({ "n", "x", "o" }, "]l", goto_next_start("@loop.outer"), { desc = "next loop start" })
+vim.keymap.set({ "n", "x", "o" }, "]L", goto_next_end("@loop.outer"), { desc = "next loop end" })
+vim.keymap.set({ "n", "x", "o" }, "[l", goto_previous_start("@loop.outer"), { desc = "previous loop start" })
+vim.keymap.set({ "n", "x", "o" }, "[L", goto_previous_end("@loop.outer"), { desc = "previous loop end" })
+
+vim.keymap.set({ "n", "x", "o" }, "]a", goto_next_start("@parameter.outer"), { desc = "next parameter start" })
+vim.keymap.set({ "n", "x", "o" }, "]A", goto_next_end("@parameter.outer"), { desc = "next parameter end" })
+vim.keymap.set({ "n", "x", "o" }, "[a", goto_previous_start("@parameter.outer"), { desc = "previous parameter start" })
+vim.keymap.set({ "n", "x", "o" }, "[A", goto_previous_end("@parameter.outer"), { desc = "previous parameter end" })
+
+vim.keymap.set({ "n", "x", "o" }, "]r", goto_next_start("@return.outer"), { desc = "next return start" })
+vim.keymap.set({ "n", "x", "o" }, "]R", goto_next_end("@return.outer"), { desc = "next return end" })
+vim.keymap.set({ "n", "x", "o" }, "[r", goto_previous_start("@return.outer"), { desc = "previous return start" })
+vim.keymap.set({ "n", "x", "o" }, "[R", goto_previous_end("@return.outer"), { desc = "previous return end" })
+
+vim.keymap.set({ "n", "x", "o" }, "]x", goto_next_start("@statement.outer"), { desc = "next statement start" })
+vim.keymap.set({ "n", "x", "o" }, "]X", goto_next_end("@statement.outer"), { desc = "next statement end" })
+vim.keymap.set({ "n", "x", "o" }, "[x", goto_previous_start("@statement.outer"), { desc = "previous statement start" })
+vim.keymap.set({ "n", "x", "o" }, "[X", goto_previous_end("@statement.outer"), { desc = "previous statement end" })
+
+vim.keymap.set({ "n", "x", "o" }, "]s", goto_next_start("@local.scope", "locals"), { desc = "next scope start" })
+vim.keymap.set({ "n", "x", "o" }, "]S", goto_next_end("@local.scope", "locals"), { desc = "next scope end" })
+vim.keymap.set({ "n", "x", "o" }, "[s", goto_previous_start("@local.scope", "locals"), { desc = "previous scope start" })
+vim.keymap.set({ "n", "x", "o" }, "[S", goto_previous_end("@local.scope", "locals"), { desc = "previous scope end" })
+
+local repeatable_move = require("nvim-treesitter-textobjects.repeatable_move")
+
+vim.keymap.set({ "n", "x", "o" }, ";", repeatable_move.repeat_last_move, { desc = "repeate last move" })
+vim.keymap.set({ "n", "x", "o" }, ",", repeatable_move.repeat_last_move_opposite, { desc = "repeate last move opposite" })
+
+vim.keymap.set({ "n", "x", "o" }, "f", repeatable_move.builtin_f_expr, { expr = true })
+vim.keymap.set({ "n", "x", "o" }, "F", repeatable_move.builtin_F_expr, { expr = true })
+vim.keymap.set({ "n", "x", "o" }, "t", repeatable_move.builtin_t_expr, { expr = true })
+vim.keymap.set({ "n", "x", "o" }, "T", repeatable_move.builtin_T_expr, { expr = true })
 
 vim.keymap.set({ "n", "v" }, "<leader>cf", vim.lsp.buf.format, { desc = "LSP format" })
 vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP code action" })
