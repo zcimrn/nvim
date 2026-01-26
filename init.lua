@@ -33,6 +33,7 @@ require("lazy").setup({
         { "EdenEast/nightfox.nvim", lazy = false, priority = 1000 },
         { "ellisonleao/gruvbox.nvim", lazy = false, priority = 1000 },
         { "folke/tokyonight.nvim", lazy = false, priority = 1000 },
+        { "kepano/flexoki-neovim", lazy = false, priority = 1000 },
         { "MarcoKorinth/onehalf.nvim", lazy = false, priority = 1000 },
         { "Mofiqul/adwaita.nvim", lazy = false, priority = 1000 },
         { "Mofiqul/vscode.nvim", lazy = false, priority = 1000 },
@@ -42,6 +43,7 @@ require("lazy").setup({
         { "projekt0n/github-nvim-theme", lazy = false, priority = 1000 },
         { "rebelot/kanagawa.nvim", lazy = false, priority = 1000 },
         { "rose-pine/neovim", lazy = false, priority = 1000 },
+        { "Shatur/neovim-ayu", lazy = false, priority = 1000 },
         { "talha-akram/noctis.nvim", lazy = false, priority = 1000 },
         {
             "nvim-treesitter/nvim-treesitter",
@@ -101,7 +103,7 @@ require("lazy").setup({
 })
 
 vim.opt.background = "light"
-vim.cmd.colorscheme("dayfox")
+vim.cmd.colorscheme("flexoki")
 
 require("nvim-treesitter").install({
     "bash",
