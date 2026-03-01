@@ -11,7 +11,6 @@ vim.opt.cursorline = true
 vim.opt.colorcolumn = "81,121"
 
 local lazy_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-
 if not (vim.uv or vim.loop).fs_stat(lazy_path) then
     vim.fn.system({
         "git",
@@ -27,24 +26,24 @@ vim.opt.rtp:prepend(lazy_path)
 
 require("lazy").setup({
     spec = {
-        { "artart222/nvim-enfocado", lazy = false, priority = 1000 },
-        { "calind/selenized.nvim", lazy = false, priority = 1000 },
-        { "catppuccin/nvim", lazy = false, priority = 1000 },
-        { "EdenEast/nightfox.nvim", lazy = false, priority = 1000 },
-        { "ellisonleao/gruvbox.nvim", lazy = false, priority = 1000 },
-        { "folke/tokyonight.nvim", lazy = false, priority = 1000 },
+        -- { "artart222/nvim-enfocado", lazy = false, priority = 1000 },
+        -- { "calind/selenized.nvim", lazy = false, priority = 1000 },
+        -- { "catppuccin/nvim", lazy = false, priority = 1000 },
+        -- { "EdenEast/nightfox.nvim", lazy = false, priority = 1000 },
+        -- { "ellisonleao/gruvbox.nvim", lazy = false, priority = 1000 },
+        -- { "folke/tokyonight.nvim", lazy = false, priority = 1000 },
+        -- { "MarcoKorinth/onehalf.nvim", lazy = false, priority = 1000 },
+        -- { "Mofiqul/adwaita.nvim", lazy = false, priority = 1000 },
+        -- { "Mofiqul/vscode.nvim", lazy = false, priority = 1000 },
+        -- { "navarasu/onedark.nvim", lazy = false, priority = 1000 },
+        -- { "neanias/everforest-nvim", lazy = false, priority = 1000 },
+        -- { "nlknguyen/papercolor-theme", lazy = false, priority = 1000 },
+        -- { "projekt0n/github-nvim-theme", lazy = false, priority = 1000 },
+        -- { "rebelot/kanagawa.nvim", lazy = false, priority = 1000 },
+        -- { "rose-pine/neovim", lazy = false, priority = 1000 },
+        -- { "Shatur/neovim-ayu", lazy = false, priority = 1000 },
+        -- { "talha-akram/noctis.nvim", lazy = false, priority = 1000 },
         { "kepano/flexoki-neovim", lazy = false, priority = 1000 },
-        { "MarcoKorinth/onehalf.nvim", lazy = false, priority = 1000 },
-        { "Mofiqul/adwaita.nvim", lazy = false, priority = 1000 },
-        { "Mofiqul/vscode.nvim", lazy = false, priority = 1000 },
-        { "navarasu/onedark.nvim", lazy = false, priority = 1000 },
-        { "neanias/everforest-nvim", lazy = false, priority = 1000 },
-        { "nlknguyen/papercolor-theme", lazy = false, priority = 1000 },
-        { "projekt0n/github-nvim-theme", lazy = false, priority = 1000 },
-        { "rebelot/kanagawa.nvim", lazy = false, priority = 1000 },
-        { "rose-pine/neovim", lazy = false, priority = 1000 },
-        { "Shatur/neovim-ayu", lazy = false, priority = 1000 },
-        { "talha-akram/noctis.nvim", lazy = false, priority = 1000 },
         {
             "nvim-treesitter/nvim-treesitter",
             branch = "main",
@@ -52,33 +51,48 @@ require("lazy").setup({
             dependencies = {
                 { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
             },
-            build = ":TSUpdate",
+            build = function()
+                require("nvim-treesitter").install({
+                    "bash",
+                    "c",
+                    "cpp",
+                    "go",
+                    "html",
+                    "javascript",
+                    "json",
+                    "lua",
+                    "make",
+                    "python",
+                    "rust",
+                    "yaml",
+                })
+            end,
         },
-        {
-            "folke/snacks.nvim",
-            lazy = false,
-            priority = 1000,
-            keys = {
-                { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart find files" },
-                { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
-                { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
-                { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command history" },
-                { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notifications" },
-                { "<leader>e", function() Snacks.explorer() end, desc = "Explorer" },
-
-                { "gd", function() Snacks.picker.lsp_definitions() end, desc = "LSP definitions" },
-                { "gD", function() Snacks.picker.lsp_declarations() end, desc = "LSP declarations" },
-                { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "LSP references" },
-                { "gI", function() Snacks.picker.lsp_implementations() end, desc = "LSP implementations" },
-                { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "LSP type definitions" },
-                { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP symbols" },
-                { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP workspace symbols" },
-            },
-            opts = {
-                explorer = { enabled = true },
-                picker = { enabled = true },
-            },
-        },
+        -- {
+        --     "folke/snacks.nvim",
+        --     lazy = false,
+        --     priority = 1000,
+        --     keys = {
+        --         { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart find files" },
+        --         { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
+        --         { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
+        --         { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command history" },
+        --         { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notifications" },
+        --         { "<leader>e", function() Snacks.explorer() end, desc = "Explorer" },
+        --
+        --         { "gd", function() Snacks.picker.lsp_definitions() end, desc = "LSP definitions" },
+        --         { "gD", function() Snacks.picker.lsp_declarations() end, desc = "LSP declarations" },
+        --         { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "LSP references" },
+        --         { "gI", function() Snacks.picker.lsp_implementations() end, desc = "LSP implementations" },
+        --         { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "LSP type definitions" },
+        --         { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP symbols" },
+        --         { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP workspace symbols" },
+        --     },
+        --     opts = {
+        --         explorer = { enabled = true },
+        --         picker = { enabled = true },
+        --     },
+        -- },
         {
             "mason-org/mason-lspconfig.nvim",
             dependencies = {
@@ -90,9 +104,11 @@ require("lazy").setup({
             },
             opts = {
                 ensure_installed = {
+                    "basedpyright",
                     "clangd",
                     "jsonls",
                     "lua_ls",
+                    "ruff",
                     "yamlls",
                 },
             },
@@ -105,33 +121,12 @@ require("lazy").setup({
 vim.opt.background = "light"
 vim.cmd.colorscheme("flexoki")
 
-require("nvim-treesitter").install({
-    "bash",
-    "c",
-    "cpp",
-    "go",
-    "html",
-    "javascript",
-    "json",
-    "lua",
-    "make",
-    "python",
-    "rust",
-    "yaml",
-})
-
 vim.lsp.config("lua_ls", {
     settings = {
         Lua = {
-            format = {
-                defaultConfig = {
-                    quote_style = "double",
-                },
-            },
+            format = { defaultConfig = { quote_style = "double" } },
             telemetry = { enable = false },
-            workspace = {
-                library = vim.api.nvim_get_runtime_file("", true),
-            },
+            workspace = { library = vim.api.nvim_get_runtime_file("", true) },
         },
     },
 })
