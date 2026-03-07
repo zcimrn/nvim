@@ -105,6 +105,7 @@ require("lazy").setup({
                     "jsonls",
                     "lua_ls",
                     "ruff",
+                    "stylua",
                     "yamlls",
                 },
             },
@@ -179,12 +180,13 @@ vim.cmd.colorscheme("flexoki")
 vim.lsp.config("lua_ls", {
     settings = {
         Lua = {
-            format = { defaultConfig = { quote_style = "double" } },
-            telemetry = { enable = false },
+            format = { enable = false },
             workspace = { library = vim.api.nvim_get_runtime_file("", true) },
         },
     },
 })
+
+vim.lsp.config("stylua", { cmd = { "stylua", "--lsp", "--indent-type", "Spaces", "--quote-style", "ForceDouble", "--sort-requires"} })
 
 local function select_textobject(query_string, query_group)
     return function()
