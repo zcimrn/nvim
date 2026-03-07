@@ -33,7 +33,15 @@ require("lazy").setup({
         { "EdenEast/nightfox.nvim", lazy = false, priority = 1000 },
         { "ellisonleao/gruvbox.nvim", lazy = false, priority = 1000 },
         { "folke/tokyonight.nvim", lazy = false, priority = 1000 },
-        { "kepano/flexoki-neovim", lazy = false, priority = 1000 },
+        {
+            "kepano/flexoki-neovim",
+            lazy = false,
+            priority = 1000,
+            config = function()
+                -- vim.opt.background = "light"
+                vim.cmd.colorscheme("flexoki")
+            end,
+        },
         { "MarcoKorinth/onehalf.nvim", lazy = false, priority = 1000 },
         { "Mofiqul/adwaita.nvim", lazy = false, priority = 1000 },
         { "Mofiqul/vscode.nvim", lazy = false, priority = 1000 },
@@ -177,9 +185,6 @@ require("lazy").setup({
         },
     },
 })
-
-vim.opt.background = "light"
-vim.cmd.colorscheme("flexoki")
 
 vim.lsp.config("lua_ls", {
     settings = {
