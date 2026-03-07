@@ -1,8 +1,9 @@
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 0
+vim.opt.shiftround = true
 vim.opt.softtabstop = -1
-vim.opt.expandtab = true
 vim.opt.smarttab = false
+vim.opt.expandtab = true
 
 vim.opt.number = true
 vim.opt.list = true
@@ -17,7 +18,7 @@ if not (vim.uv or vim.loop).fs_stat(lazy_path) then
         "clone",
         "--filter=blob:none",
         "--branch=stable",
-        "https://github.com/folke/lazy.nvim.git",
+        "https://github.com/folke/lazy.nvim",
         lazy_path,
     })
 end
@@ -26,31 +27,29 @@ vim.opt.rtp:prepend(lazy_path)
 
 require("lazy").setup({
     spec = {
-        -- { "artart222/nvim-enfocado", lazy = false, priority = 1000 },
-        -- { "calind/selenized.nvim", lazy = false, priority = 1000 },
-        -- { "catppuccin/nvim", lazy = false, priority = 1000 },
-        -- { "EdenEast/nightfox.nvim", lazy = false, priority = 1000 },
-        -- { "ellisonleao/gruvbox.nvim", lazy = false, priority = 1000 },
-        -- { "folke/tokyonight.nvim", lazy = false, priority = 1000 },
-        -- { "MarcoKorinth/onehalf.nvim", lazy = false, priority = 1000 },
-        -- { "Mofiqul/adwaita.nvim", lazy = false, priority = 1000 },
-        -- { "Mofiqul/vscode.nvim", lazy = false, priority = 1000 },
-        -- { "navarasu/onedark.nvim", lazy = false, priority = 1000 },
-        -- { "neanias/everforest-nvim", lazy = false, priority = 1000 },
-        -- { "nlknguyen/papercolor-theme", lazy = false, priority = 1000 },
-        -- { "projekt0n/github-nvim-theme", lazy = false, priority = 1000 },
-        -- { "rebelot/kanagawa.nvim", lazy = false, priority = 1000 },
-        -- { "rose-pine/neovim", lazy = false, priority = 1000 },
-        -- { "Shatur/neovim-ayu", lazy = false, priority = 1000 },
-        -- { "talha-akram/noctis.nvim", lazy = false, priority = 1000 },
+        { "artart222/nvim-enfocado", lazy = false, priority = 1000 },
+        { "calind/selenized.nvim", lazy = false, priority = 1000 },
+        { "catppuccin/nvim", lazy = false, priority = 1000 },
+        { "EdenEast/nightfox.nvim", lazy = false, priority = 1000 },
+        { "ellisonleao/gruvbox.nvim", lazy = false, priority = 1000 },
+        { "folke/tokyonight.nvim", lazy = false, priority = 1000 },
         { "kepano/flexoki-neovim", lazy = false, priority = 1000 },
+        { "MarcoKorinth/onehalf.nvim", lazy = false, priority = 1000 },
+        { "Mofiqul/adwaita.nvim", lazy = false, priority = 1000 },
+        { "Mofiqul/vscode.nvim", lazy = false, priority = 1000 },
+        { "navarasu/onedark.nvim", lazy = false, priority = 1000 },
+        { "neanias/everforest-nvim", lazy = false, priority = 1000 },
+        { "nlknguyen/papercolor-theme", lazy = false, priority = 1000 },
+        { "projekt0n/github-nvim-theme", lazy = false, priority = 1000 },
+        { "rebelot/kanagawa.nvim", lazy = false, priority = 1000 },
+        { "rose-pine/neovim", lazy = false, priority = 1000 },
+        { "Shatur/neovim-ayu", lazy = false, priority = 1000 },
+        { "talha-akram/noctis.nvim", lazy = false, priority = 1000 },
         {
             "nvim-treesitter/nvim-treesitter",
             branch = "main",
             lazy = false,
-            dependencies = {
-                { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
-            },
+            dependencies = { { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" } },
             build = function()
                 require("nvim-treesitter").install({
                     "bash",
@@ -96,10 +95,7 @@ require("lazy").setup({
         {
             "mason-org/mason-lspconfig.nvim",
             dependencies = {
-                {
-                    "mason-org/mason.nvim",
-                    opts = {},
-                },
+                { "mason-org/mason.nvim", opts = {} },
                 "neovim/nvim-lspconfig",
             },
             opts = {
@@ -115,6 +111,65 @@ require("lazy").setup({
         },
         { "folke/lazydev.nvim", ft = "lua", opts = {} },
         { "folke/which-key.nvim", event = "VeryLazy" },
+        {
+            "lewis6991/gitsigns.nvim",
+            opts = {
+                on_attach = function(buffer)
+                    local gitsigns = require("gitsigns")
+
+                    vim.keymap.set({"x", "o"}, "ih", gitsigns.select_hunk,
+                        { buffer = buffer, desc = "inner hunk" })
+                    vim.keymap.set({"x", "o"}, "ah", gitsigns.select_hunk,
+                        { buffer = buffer, desc = "outer hunk" })
+
+                    vim.keymap.set({"n", "x", "o"}, "]h", function()
+                        if vim.wo.diff then
+                            vim.cmd.normal({ "]h", bang = true })
+                        else
+                            gitsigns.nav_hunk("next")
+                        end
+                    end, { buffer = buffer, desc = "next hunk" })
+
+                    vim.keymap.set({"n", "x", "o"}, "[h", function()
+                        if vim.wo.diff then
+                            vim.cmd.normal({ "[h", bang = true })
+                        else
+                            gitsigns.nav_hunk("prev")
+                        end
+                    end, { buffer = buffer, desc = "previous hunk" })
+
+                    vim.keymap.set("n", "<leader>hp", gitsigns.preview_hunk,
+                        { buffer = buffer, desc = "preview hunk" })
+                    vim.keymap.set("n", "<leader>hi", gitsigns.preview_hunk_inline,
+                        { buffer = buffer, desc = "preview hunk inline" })
+
+                    vim.keymap.set("v", "<leader>hs", function() gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end,
+                        { buffer = buffer, desc = "stage hunk lines" })
+                    vim.keymap.set("n", "<leader>hs", gitsigns.stage_hunk,
+                        { buffer = buffer, desc = "stage hunk" })
+                    vim.keymap.set("n", "<leader>hS", gitsigns.stage_buffer,
+                        { buffer = buffer, desc = "stage buffer hunks" })
+
+                    vim.keymap.set("v", "<leader>hr", function() gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end,
+                        { buffer = buffer, desc = "reset hunk lines" })
+                    vim.keymap.set("n", "<leader>hr", gitsigns.reset_hunk,
+                        { buffer = buffer, desc = "reset hunk" })
+                    vim.keymap.set("n", "<leader>hR", gitsigns.reset_buffer,
+                        { buffer = buffer, desc = "reset hunk" })
+
+                    vim.keymap.set("n", "<leader>hq", gitsigns.setqflist,
+                        { buffer = buffer, desc = "buffer hunks" })
+                    vim.keymap.set("n", "<leader>hQ", function() gitsigns.setqflist("all") end,
+                        { buffer = buffer, desc = "all hunks" })
+
+                    vim.keymap.set("n", "<leader>hd", gitsigns.diffthis,
+                        { buffer = buffer, desc = "diff" })
+
+                    vim.keymap.set("n", "<leader>hb", function() gitsigns.blame_line({ full = true }) end,
+                        { buffer = buffer, desc = "blame" })
+              end
+            }
+        },
     },
 })
 
@@ -253,5 +308,3 @@ vim.keymap.set({ "n", "x", "o" }, "t", repeatable_move.builtin_t_expr, { expr = 
 vim.keymap.set({ "n", "x", "o" }, "T", repeatable_move.builtin_T_expr, { expr = true })
 
 vim.keymap.set({ "n", "v" }, "<leader>cf", vim.lsp.buf.format, { desc = "LSP format" })
-vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP code action" })
-vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "LSP rename" })
