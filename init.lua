@@ -118,12 +118,10 @@ require("lazy").setup({
                 on_attach = function(buffer)
                     local gitsigns = require("gitsigns")
 
-                    vim.keymap.set({"x", "o"}, "ih", gitsigns.select_hunk,
-                        { buffer = buffer, desc = "inner hunk" })
-                    vim.keymap.set({"x", "o"}, "ah", gitsigns.select_hunk,
-                        { buffer = buffer, desc = "outer hunk" })
+                    vim.keymap.set({ "x", "o" }, "ih", gitsigns.select_hunk, { buffer = buffer, desc = "inner hunk" })
+                    vim.keymap.set({ "x", "o" }, "ah", gitsigns.select_hunk, { buffer = buffer, desc = "outer hunk" })
 
-                    vim.keymap.set({"n", "x", "o"}, "]h", function()
+                    vim.keymap.set({ "n", "x", "o" }, "]h", function()
                         if vim.wo.diff then
                             vim.cmd.normal({ "]h", bang = true })
                         else
@@ -131,7 +129,7 @@ require("lazy").setup({
                         end
                     end, { buffer = buffer, desc = "next hunk" })
 
-                    vim.keymap.set({"n", "x", "o"}, "[h", function()
+                    vim.keymap.set({ "n", "x", "o" }, "[h", function()
                         if vim.wo.diff then
                             vim.cmd.normal({ "[h", bang = true })
                         else
@@ -139,37 +137,43 @@ require("lazy").setup({
                         end
                     end, { buffer = buffer, desc = "previous hunk" })
 
-                    vim.keymap.set("n", "<leader>hp", gitsigns.preview_hunk,
-                        { buffer = buffer, desc = "preview hunk" })
-                    vim.keymap.set("n", "<leader>hi", gitsigns.preview_hunk_inline,
-                        { buffer = buffer, desc = "preview hunk inline" })
+                    vim.keymap.set("n", "<leader>hp", gitsigns.preview_hunk, { buffer = buffer, desc = "preview hunk" })
+                    vim.keymap.set(
+                        "n",
+                        "<leader>hi",
+                        gitsigns.preview_hunk_inline,
+                        { buffer = buffer, desc = "preview hunk inline" }
+                    )
 
-                    vim.keymap.set("v", "<leader>hs", function() gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end,
-                        { buffer = buffer, desc = "stage hunk lines" })
-                    vim.keymap.set("n", "<leader>hs", gitsigns.stage_hunk,
-                        { buffer = buffer, desc = "stage hunk" })
-                    vim.keymap.set("n", "<leader>hS", gitsigns.stage_buffer,
-                        { buffer = buffer, desc = "stage buffer hunks" })
+                    vim.keymap.set("v", "<leader>hs", function()
+                        gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+                    end, { buffer = buffer, desc = "stage hunk lines" })
+                    vim.keymap.set("n", "<leader>hs", gitsigns.stage_hunk, { buffer = buffer, desc = "stage hunk" })
+                    vim.keymap.set(
+                        "n",
+                        "<leader>hS",
+                        gitsigns.stage_buffer,
+                        { buffer = buffer, desc = "stage buffer hunks" }
+                    )
 
-                    vim.keymap.set("v", "<leader>hr", function() gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end,
-                        { buffer = buffer, desc = "reset hunk lines" })
-                    vim.keymap.set("n", "<leader>hr", gitsigns.reset_hunk,
-                        { buffer = buffer, desc = "reset hunk" })
-                    vim.keymap.set("n", "<leader>hR", gitsigns.reset_buffer,
-                        { buffer = buffer, desc = "reset hunk" })
+                    vim.keymap.set("v", "<leader>hr", function()
+                        gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+                    end, { buffer = buffer, desc = "reset hunk lines" })
+                    vim.keymap.set("n", "<leader>hr", gitsigns.reset_hunk, { buffer = buffer, desc = "reset hunk" })
+                    vim.keymap.set("n", "<leader>hR", gitsigns.reset_buffer, { buffer = buffer, desc = "reset hunk" })
 
-                    vim.keymap.set("n", "<leader>hq", gitsigns.setqflist,
-                        { buffer = buffer, desc = "buffer hunks" })
-                    vim.keymap.set("n", "<leader>hQ", function() gitsigns.setqflist("all") end,
-                        { buffer = buffer, desc = "all hunks" })
+                    vim.keymap.set("n", "<leader>hq", gitsigns.setqflist, { buffer = buffer, desc = "buffer hunks" })
+                    vim.keymap.set("n", "<leader>hQ", function()
+                        gitsigns.setqflist("all")
+                    end, { buffer = buffer, desc = "all hunks" })
 
-                    vim.keymap.set("n", "<leader>hd", gitsigns.diffthis,
-                        { buffer = buffer, desc = "diff" })
+                    vim.keymap.set("n", "<leader>hd", gitsigns.diffthis, { buffer = buffer, desc = "diff" })
 
-                    vim.keymap.set("n", "<leader>hb", function() gitsigns.blame_line({ full = true }) end,
-                        { buffer = buffer, desc = "blame" })
-              end
-            }
+                    vim.keymap.set("n", "<leader>hb", function()
+                        gitsigns.blame_line({ full = true })
+                    end, { buffer = buffer, desc = "blame" })
+                end,
+            },
         },
     },
 })
@@ -186,7 +190,10 @@ vim.lsp.config("lua_ls", {
     },
 })
 
-vim.lsp.config("stylua", { cmd = { "stylua", "--lsp", "--indent-type", "Spaces", "--quote-style", "ForceDouble", "--sort-requires"} })
+vim.lsp.config(
+    "stylua",
+    { cmd = { "stylua", "--lsp", "--indent-type", "Spaces", "--quote-style", "ForceDouble", "--sort-requires" } }
+)
 
 local function select_textobject(query_string, query_group)
     return function()
@@ -222,8 +229,12 @@ vim.keymap.set({ "x", "o" }, "ax", select_textobject("@statement.outer"), { desc
 
 vim.keymap.set({ "x", "o" }, "as", select_textobject("@local.scope", "locals"), { desc = "outer scope" })
 
-vim.keymap.set("n", "<leader>a", function() require("nvim-treesitter-textobjects.swap").swap_next("@parameter.inner") end)
-vim.keymap.set("n", "<leader>A", function() require("nvim-treesitter-textobjects.swap").swap_previous("@parameter.outer") end)
+vim.keymap.set("n", "<leader>a", function()
+    require("nvim-treesitter-textobjects.swap").swap_next("@parameter.inner")
+end)
+vim.keymap.set("n", "<leader>A", function()
+    require("nvim-treesitter-textobjects.swap").swap_previous("@parameter.outer")
+end)
 
 local function goto_next_start(query_string, query_group)
     return function()
@@ -266,7 +277,12 @@ vim.keymap.set({ "n", "x", "o" }, "[C", goto_previous_end("@class.outer"), { des
 
 vim.keymap.set({ "n", "x", "o" }, "]i", goto_next_start("@conditional.outer"), { desc = "next conditional start" })
 vim.keymap.set({ "n", "x", "o" }, "]I", goto_next_end("@conditional.outer"), { desc = "next conditional end" })
-vim.keymap.set({ "n", "x", "o" }, "[i", goto_previous_start("@conditional.outer"), { desc = "previous conditional start" })
+vim.keymap.set(
+    { "n", "x", "o" },
+    "[i",
+    goto_previous_start("@conditional.outer"),
+    { desc = "previous conditional start" }
+)
 vim.keymap.set({ "n", "x", "o" }, "[I", goto_previous_end("@conditional.outer"), { desc = "previous conditional end" })
 
 vim.keymap.set({ "n", "x", "o" }, "]m", goto_next_start("@function.outer"), { desc = "next function start" })
@@ -296,13 +312,23 @@ vim.keymap.set({ "n", "x", "o" }, "[X", goto_previous_end("@statement.outer"), {
 
 vim.keymap.set({ "n", "x", "o" }, "]s", goto_next_start("@local.scope", "locals"), { desc = "next scope start" })
 vim.keymap.set({ "n", "x", "o" }, "]S", goto_next_end("@local.scope", "locals"), { desc = "next scope end" })
-vim.keymap.set({ "n", "x", "o" }, "[s", goto_previous_start("@local.scope", "locals"), { desc = "previous scope start" })
+vim.keymap.set(
+    { "n", "x", "o" },
+    "[s",
+    goto_previous_start("@local.scope", "locals"),
+    { desc = "previous scope start" }
+)
 vim.keymap.set({ "n", "x", "o" }, "[S", goto_previous_end("@local.scope", "locals"), { desc = "previous scope end" })
 
 local repeatable_move = require("nvim-treesitter-textobjects.repeatable_move")
 
 vim.keymap.set({ "n", "x", "o" }, ";", repeatable_move.repeat_last_move, { desc = "repeate last move" })
-vim.keymap.set({ "n", "x", "o" }, ",", repeatable_move.repeat_last_move_opposite, { desc = "repeate last move opposite" })
+vim.keymap.set(
+    { "n", "x", "o" },
+    ",",
+    repeatable_move.repeat_last_move_opposite,
+    { desc = "repeate last move opposite" }
+)
 
 vim.keymap.set({ "n", "x", "o" }, "f", repeatable_move.builtin_f_expr, { expr = true })
 vim.keymap.set({ "n", "x", "o" }, "F", repeatable_move.builtin_F_expr, { expr = true })
