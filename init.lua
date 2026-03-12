@@ -25,6 +25,10 @@ end
 
 vim.opt.rtp:prepend(lazy_path)
 
+if vim.g.vscode then
+    return
+end
+
 require("lazy").setup({
     spec = {
         { "artart222/nvim-enfocado", lazy = false, priority = 1000 },
