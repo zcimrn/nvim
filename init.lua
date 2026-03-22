@@ -6,10 +6,13 @@ vim.opt.smarttab = false
 vim.opt.expandtab = true
 
 vim.opt.number = true
+vim.opt.guicursor = "a:block"
 vim.opt.list = true
 vim.opt.scrolloff = 8
 vim.opt.cursorline = true
 vim.opt.colorcolumn = "81,121"
+
+vim.opt.termguicolors = false
 
 local lazy_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazy_path) then
@@ -31,32 +34,17 @@ end
 
 require("lazy").setup({
     spec = {
-        { "artart222/nvim-enfocado", lazy = false, priority = 1000 },
-        { "calind/selenized.nvim", lazy = false, priority = 1000 },
-        { "catppuccin/nvim", lazy = false, priority = 1000 },
-        { "EdenEast/nightfox.nvim", lazy = false, priority = 1000 },
-        { "ellisonleao/gruvbox.nvim", lazy = false, priority = 1000 },
-        { "folke/tokyonight.nvim", lazy = false, priority = 1000 },
+        { "bjarneo/pixel.nvim", lazy = false, priority = 1000 },
         {
-            "kepano/flexoki-neovim",
+            "jeffkreeftmeijer/vim-dim",
             lazy = false,
             priority = 1000,
             config = function()
-                -- vim.opt.background = "light"
-                vim.cmd.colorscheme("flexoki")
+                vim.opt.background = "light"
+                vim.cmd.colorscheme("dim")
             end,
         },
-        { "MarcoKorinth/onehalf.nvim", lazy = false, priority = 1000 },
-        { "Mofiqul/adwaita.nvim", lazy = false, priority = 1000 },
-        { "Mofiqul/vscode.nvim", lazy = false, priority = 1000 },
-        { "navarasu/onedark.nvim", lazy = false, priority = 1000 },
-        { "neanias/everforest-nvim", lazy = false, priority = 1000 },
-        { "nlknguyen/papercolor-theme", lazy = false, priority = 1000 },
-        { "projekt0n/github-nvim-theme", lazy = false, priority = 1000 },
-        { "rebelot/kanagawa.nvim", lazy = false, priority = 1000 },
-        { "rose-pine/neovim", lazy = false, priority = 1000 },
-        { "Shatur/neovim-ayu", lazy = false, priority = 1000 },
-        { "talha-akram/noctis.nvim", lazy = false, priority = 1000 },
+        { "noahfrederick/vim-noctu", lazy = false, priority = 1000 },
         {
             "nvim-treesitter/nvim-treesitter",
             branch = "main",
@@ -122,7 +110,6 @@ require("lazy").setup({
                 },
             },
         },
-        { "folke/lazydev.nvim", ft = "lua", opts = {} },
         { "folke/which-key.nvim", event = "VeryLazy" },
         {
             "lewis6991/gitsigns.nvim",
@@ -188,6 +175,7 @@ require("lazy").setup({
             },
         },
     },
+    install = { colorscheme = { "default" } },
 })
 
 vim.lsp.config("lua_ls", {
