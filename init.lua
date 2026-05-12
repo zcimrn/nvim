@@ -11,8 +11,7 @@ vim.opt.list = true
 vim.opt.scrolloff = 8
 vim.opt.cursorline = true
 vim.opt.colorcolumn = "81,121"
-
-vim.opt.termguicolors = false
+vim.opt.winborder = "rounded"
 
 local lazy_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazy_path) then
@@ -34,17 +33,14 @@ end
 
 require("lazy").setup({
     spec = {
-        { "bjarneo/pixel.nvim", lazy = false, priority = 1000 },
         {
-            "jeffkreeftmeijer/vim-dim",
+            "tinted-theming/tinted-nvim",
             lazy = false,
             priority = 1000,
-            config = function()
-                vim.opt.background = "light"
-                vim.cmd.colorscheme("dim")
-            end,
+            opts = {
+                default_scheme = "base16-cupertino",
+            },
         },
-        { "noahfrederick/vim-noctu", lazy = false, priority = 1000 },
         {
             "nvim-treesitter/nvim-treesitter",
             branch = "main",
@@ -105,6 +101,7 @@ require("lazy").setup({
                     "jsonls",
                     "lua_ls",
                     "ruff",
+                    "rust_analyzer",
                     "stylua",
                     "yamlls",
                 },
@@ -175,7 +172,7 @@ require("lazy").setup({
             },
         },
     },
-    install = { colorscheme = { "default" } },
+    install = { colorscheme = { "catppuccin" } },
 })
 
 vim.lsp.config("lua_ls", {
