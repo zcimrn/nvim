@@ -38,7 +38,7 @@ require("lazy").setup({
             lazy = false,
             priority = 1000,
             opts = {
-                default_scheme = "base16-cupertino",
+                default_scheme = "base16-selenized-white",
             },
         },
         {
