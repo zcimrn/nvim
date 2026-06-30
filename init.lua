@@ -14,6 +14,11 @@ vim.opt.colorcolumn = "81,121"
 vim.opt.winborder = "rounded"
 -- vim.opt.termguicolors = false
 
+vim.opt.foldcolumn = "auto"
+
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
 vim.opt.spelllang = "ru_ru,en_us"
 
 vim.opt.langmap = ""
