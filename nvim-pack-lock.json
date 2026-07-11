@@ -1,0 +1,32 @@
+{
+  "plugins": {
+    "github-nvim-theme": {
+      "rev": "c106c9472154d6b2c74b74565616b877ae8ed31d",
+      "src": "https://github.com/projekt0n/github-nvim-theme"
+    },
+    "mason-lspconfig.nvim": {
+      "rev": "47059d71b42d74b0a1e9f61c1d99d301039c3b5b",
+      "src": "https://github.com/mason-org/mason-lspconfig.nvim"
+    },
+    "mason.nvim": {
+      "rev": "2a6940af80375532e5e9e7c1f2fc6319a1b7a69d",
+      "src": "https://github.com/mason-org/mason.nvim"
+    },
+    "mini.diff": {
+      "rev": "be4ca6953040332d77a5a05bb5600152c5c36e7a",
+      "src": "https://github.com/nvim-mini/mini.diff"
+    },
+    "nvim-lspconfig": {
+      "rev": "5955a100ae7155962330643924e21a798b9bdc91",
+      "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "tinted-nvim": {
+      "rev": "f72f46057151de65ece4c280f67db84c63d64c76",
+      "src": "https://github.com/tinted-theming/tinted-nvim"
+    },
+    "which-key.nvim": {
+      "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
+      "src": "https://github.com/folke/which-key.nvim"
+    }
+  }
+}
