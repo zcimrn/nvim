@@ -29,166 +29,44 @@ vim.opt.langmap = ""
     .. "яz,чx,сc,мv,иb,тn,ьm,б\\,,ю.,ё`,№#,"
     .. "ЯZ,ЧX,СC,МV,ИB,ТN,ЬM,Б<,Ю>,Ё~"
 
-local lazy_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazy_path) then
-    vim.fn.system({
-        "git",
-        "clone",
-        "--filter=blob:none",
-        "--branch=stable",
-        "https://github.com/folke/lazy.nvim",
-        lazy_path,
-    })
-end
-
-vim.opt.rtp:prepend(lazy_path)
-
 if vim.g.vscode then
     return
 end
 
-require("lazy").setup({
-    spec = {
-        {
-            "tinted-theming/tinted-nvim",
-            lazy = false,
-            priority = 1000,
-            opts = {
-                default_scheme = "base16-selenized-white",
-            },
-        },
-        {
-            "nvim-treesitter/nvim-treesitter",
-            branch = "main",
-            lazy = false,
-            dependencies = { { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" } },
-            build = function()
-                require("nvim-treesitter").install({
-                    "bash",
-                    "c",
-                    "cpp",
-                    "go",
-                    "html",
-                    "javascript",
-                    "json",
-                    "lua",
-                    "make",
-                    "python",
-                    "rust",
-                    "yaml",
-                })
-            end,
-        },
-        -- {
-        --     "folke/snacks.nvim",
-        --     lazy = false,
-        --     priority = 1000,
-        --     keys = {
-        --         { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart find files" },
-        --         { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
-        --         { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
-        --         { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command history" },
-        --         { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notifications" },
-        --         { "<leader>e", function() Snacks.explorer() end, desc = "Explorer" },
-        --
-        --         { "gd", function() Snacks.picker.lsp_definitions() end, desc = "LSP definitions" },
-        --         { "gD", function() Snacks.picker.lsp_declarations() end, desc = "LSP declarations" },
-        --         { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "LSP references" },
-        --         { "gI", function() Snacks.picker.lsp_implementations() end, desc = "LSP implementations" },
-        --         { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "LSP type definitions" },
-        --         { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP symbols" },
-        --         { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP workspace symbols" },
-        --     },
-        --     opts = {
-        --         explorer = { enabled = true },
-        --         picker = { enabled = true },
-        --     },
-        -- },
-        {
-            "mason-org/mason-lspconfig.nvim",
-            dependencies = {
-                { "mason-org/mason.nvim", opts = {} },
-                "neovim/nvim-lspconfig",
-            },
-            opts = {
-                ensure_installed = {
-                    "basedpyright",
-                    "clangd",
-                    "jsonls",
-                    "lua_ls",
-                    "ruff",
-                    "rust_analyzer",
-                    "stylua",
-                    "yamlls",
-                },
-            },
-        },
-        { "folke/which-key.nvim", event = "VeryLazy" },
-        {
-            "lewis6991/gitsigns.nvim",
-            opts = {
-                on_attach = function(buffer)
-                    local gitsigns = require("gitsigns")
+vim.pack.add({
+    "https://github.com/projekt0n/github-nvim-theme",
+    "https://github.com/tinted-theming/tinted-nvim",
 
-                    vim.keymap.set({ "x", "o" }, "ih", gitsigns.select_hunk, { buffer = buffer, desc = "inner hunk" })
-                    vim.keymap.set({ "x", "o" }, "ah", gitsigns.select_hunk, { buffer = buffer, desc = "outer hunk" })
+    "https://github.com/neovim/nvim-lspconfig",
+    "https://github.com/mason-org/mason.nvim",
+    "https://github.com/mason-org/mason-lspconfig.nvim",
+    "https://github.com/folke/which-key.nvim",
+    "https://github.com/nvim-mini/mini.diff",
+})
 
-                    vim.keymap.set({ "n", "x", "o" }, "]h", function()
-                        if vim.wo.diff then
-                            vim.cmd.normal({ "]h", bang = true })
-                        else
-                            gitsigns.nav_hunk("next")
-                        end
-                    end, { buffer = buffer, desc = "next hunk" })
+vim.cmd.colorscheme("github_light")
 
-                    vim.keymap.set({ "n", "x", "o" }, "[h", function()
-                        if vim.wo.diff then
-                            vim.cmd.normal({ "[h", bang = true })
-                        else
-                            gitsigns.nav_hunk("prev")
-                        end
-                    end, { buffer = buffer, desc = "previous hunk" })
+-- require("tinted-nvim").setup({
+--     default_scheme = "base16-selenized-white",
+-- })
 
-                    vim.keymap.set("n", "<leader>hp", gitsigns.preview_hunk, { buffer = buffer, desc = "preview hunk" })
-                    vim.keymap.set(
-                        "n",
-                        "<leader>hi",
-                        gitsigns.preview_hunk_inline,
-                        { buffer = buffer, desc = "preview hunk inline" }
-                    )
+require("mason").setup()
 
-                    vim.keymap.set("v", "<leader>hs", function()
-                        gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-                    end, { buffer = buffer, desc = "stage hunk lines" })
-                    vim.keymap.set("n", "<leader>hs", gitsigns.stage_hunk, { buffer = buffer, desc = "stage hunk" })
-                    vim.keymap.set(
-                        "n",
-                        "<leader>hS",
-                        gitsigns.stage_buffer,
-                        { buffer = buffer, desc = "stage buffer hunks" }
-                    )
-
-                    vim.keymap.set("v", "<leader>hr", function()
-                        gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-                    end, { buffer = buffer, desc = "reset hunk lines" })
-                    vim.keymap.set("n", "<leader>hr", gitsigns.reset_hunk, { buffer = buffer, desc = "reset hunk" })
-                    vim.keymap.set("n", "<leader>hR", gitsigns.reset_buffer, { buffer = buffer, desc = "reset hunk" })
-
-                    vim.keymap.set("n", "<leader>hq", gitsigns.setqflist, { buffer = buffer, desc = "buffer hunks" })
-                    vim.keymap.set("n", "<leader>hQ", function()
-                        gitsigns.setqflist("all")
-                    end, { buffer = buffer, desc = "all hunks" })
-
-                    vim.keymap.set("n", "<leader>hd", gitsigns.diffthis, { buffer = buffer, desc = "diff" })
-
-                    vim.keymap.set("n", "<leader>hb", function()
-                        gitsigns.blame_line({ full = true })
-                    end, { buffer = buffer, desc = "blame" })
-                end,
-            },
-        },
+require("mason-lspconfig").setup({
+    ensure_installed = {
+        "basedpyright",
+        "clangd",
+        "jsonls",
+        "lua_ls",
+        "ruff",
+        "rust_analyzer",
+        "stylua",
+        "yamlls",
     },
-    install = { colorscheme = { "catppuccin" } },
+})
+
+require("mini.diff").setup({
+    view = { style = "sign" },
 })
 
 vim.lsp.config("lua_ls", {
@@ -200,10 +78,11 @@ vim.lsp.config("lua_ls", {
     },
 })
 
-vim.lsp.config(
-    "stylua",
-    { cmd = { "stylua", "--lsp", "--indent-type", "Spaces", "--quote-style", "ForceDouble", "--sort-requires" } }
-)
+vim.lsp.config("stylua", {
+    cmd = { "stylua", "--lsp", "--indent-type", "Spaces", "--quote-style", "ForceDouble", "--sort-requires" },
+})
+
+vim.keymap.set({ "n", "v" }, "<leader>cf", vim.lsp.buf.format, { desc = "LSP format" })
 
 -- local function select_textobject(query_string, query_group)
 --     return function()
@@ -344,5 +223,3 @@ vim.lsp.config(
 -- vim.keymap.set({ "n", "x", "o" }, "F", repeatable_move.builtin_F_expr, { expr = true })
 -- vim.keymap.set({ "n", "x", "o" }, "t", repeatable_move.builtin_t_expr, { expr = true })
 -- vim.keymap.set({ "n", "x", "o" }, "T", repeatable_move.builtin_T_expr, { expr = true })
-
-vim.keymap.set({ "n", "v" }, "<leader>cf", vim.lsp.buf.format, { desc = "LSP format" })
