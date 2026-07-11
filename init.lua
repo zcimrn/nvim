@@ -36,7 +36,7 @@ end
 vim.pack.add({
     "https://github.com/projekt0n/github-nvim-theme",
     "https://github.com/tinted-theming/tinted-nvim",
-
+    "https://github.com/nvim-treesitter/nvim-treesitter",
     "https://github.com/neovim/nvim-lspconfig",
     "https://github.com/mason-org/mason.nvim",
     "https://github.com/mason-org/mason-lspconfig.nvim",
@@ -49,6 +49,14 @@ vim.cmd.colorscheme("github_light")
 -- require("tinted-nvim").setup({
 --     default_scheme = "base16-selenized-white",
 -- })
+
+require("nvim-treesitter").install("all")
+
+vim.api.nvim_create_autocmd("FileType", {
+    callback = function()
+        pcall(vim.treesitter.start)
+    end,
+})
 
 require("mason").setup()
 
