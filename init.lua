@@ -34,8 +34,9 @@ if vim.g.vscode then
 end
 
 vim.pack.add({
-    "https://github.com/projekt0n/github-nvim-theme",
     "https://github.com/tinted-theming/tinted-nvim",
+    -- "https://github.com/Mofiqul/vscode.nvim",
+    -- "https://github.com/projekt0n/github-nvim-theme",
     "https://github.com/nvim-treesitter/nvim-treesitter",
     "https://github.com/neovim/nvim-lspconfig",
     "https://github.com/mason-org/mason.nvim",
@@ -44,11 +45,11 @@ vim.pack.add({
     "https://github.com/nvim-mini/mini.diff",
 })
 
-vim.cmd.colorscheme("github_light")
+-- vim.cmd.colorscheme("vscode")
 
--- require("tinted-nvim").setup({
---     default_scheme = "base16-selenized-white",
--- })
+require("tinted-nvim").setup({
+    default_scheme = "base16-selenized-white",
+})
 
 require("nvim-treesitter").install("all")
 

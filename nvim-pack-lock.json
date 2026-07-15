@@ -1,11 +1,7 @@
 {
   "plugins": {
-    "github-nvim-theme": {
-      "rev": "c106c9472154d6b2c74b74565616b877ae8ed31d",
-      "src": "https://github.com/projekt0n/github-nvim-theme"
-    },
     "mason-lspconfig.nvim": {
-      "rev": "47059d71b42d74b0a1e9f61c1d99d301039c3b5b",
+      "rev": "a4068c3ebd4cb335b25239e5ea35c22ee6007962",
       "src": "https://github.com/mason-org/mason-lspconfig.nvim"
     },
     "mason.nvim": {
@@ -13,11 +9,11 @@
       "src": "https://github.com/mason-org/mason.nvim"
     },
     "mini.diff": {
-      "rev": "be4ca6953040332d77a5a05bb5600152c5c36e7a",
+      "rev": "b3d8507929f8df54ab9b08c77564c1afd7d62110",
       "src": "https://github.com/nvim-mini/mini.diff"
     },
     "nvim-lspconfig": {
-      "rev": "5955a100ae7155962330643924e21a798b9bdc91",
+      "rev": "d5b6e3db4c17b0146f63a2fc47e2027a754b2cb1",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-treesitter": {
@@ -25,7 +21,7 @@
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "tinted-nvim": {
-      "rev": "f72f46057151de65ece4c280f67db84c63d64c76",
+      "rev": "a229fe0efadb4d9bfa92cad16175bb4e93fa70d4",
       "src": "https://github.com/tinted-theming/tinted-nvim"
     },
     "which-key.nvim": {
