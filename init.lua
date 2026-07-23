@@ -78,6 +78,10 @@ require("mini.diff").setup({
     view = { style = "sign" },
 })
 
+vim.lsp.config("clangd", {
+    cmd = { "clangd", "-j", "4" },
+})
+
 vim.lsp.config("lua_ls", {
     settings = {
         Lua = {
