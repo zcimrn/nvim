@@ -79,7 +79,7 @@ require("mini.diff").setup({
 })
 
 vim.lsp.config("clangd", {
-    cmd = { "clangd", "-j", "4" },
+    cmd = { "clangd", "--header-insertion=never", "--clang-tidy", "-j=4" },
 })
 
 vim.lsp.config("lua_ls", {
