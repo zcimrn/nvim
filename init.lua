@@ -43,6 +43,7 @@ vim.pack.add({
     "https://github.com/mason-org/mason-lspconfig.nvim",
     "https://github.com/folke/which-key.nvim",
     "https://github.com/nvim-mini/mini.diff",
+    "https://github.com/stevearc/oil.nvim",
 })
 
 -- vim.cmd.colorscheme("vscode")
@@ -77,6 +78,8 @@ require("mason-lspconfig").setup({
 require("mini.diff").setup({
     view = { style = "sign" },
 })
+
+require("oil").setup()
 
 vim.lsp.config("clangd", {
     cmd = { "clangd", "--header-insertion=never", "--clang-tidy", "-j=4" },
